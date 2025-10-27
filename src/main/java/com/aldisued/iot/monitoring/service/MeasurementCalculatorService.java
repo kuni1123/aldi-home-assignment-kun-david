@@ -14,17 +14,15 @@ public class MeasurementCalculatorService {
             throw new IllegalArgumentException("Deviation must be between 0.0 and 1.0");
         }
 
-        var average = values.stream()
-                .reduce(Double::sum)
-                .map(sum -> sum / values.size());
+        var summary = values.stream()
+                .mapToDouble(Double::doubleValue)
+                .summaryStatistics();
 
-        var min = average
-                .map(value -> value - deviation * value)
-                .orElse(0.0);
+        var average = summary.getAverage();
 
-        var max = average
-                .map(value -> value + deviation * value)
-                .orElse(1.0);
+        var min = average - deviation * average;
+
+        var max = average + deviation * average;
 
         return values.stream()
                 .filter(value -> value >= min && value <= max)

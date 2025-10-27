@@ -11,12 +11,12 @@ import java.util.List;
 public interface SensorReadingRepository extends JpaRepository<SensorReading, String> {
 
     @Query("""
-            select sr from SensorReading sr
+            select sr.value from SensorReading sr
             where sr.sensor.type = :sensorType
             and sr.timestamp >= :from
             and sr.timestamp <= :to
             order by sr.timestamp
             """
     )
-    List<SensorReading> findAllByTimestampIsBetweenAndSensorType(LocalDateTime from, LocalDateTime to, SensorType sensorType);
+    List<Double> findAllByTimestampIsBetweenAndSensorType(LocalDateTime from, LocalDateTime to, SensorType sensorType);
 }
