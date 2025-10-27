@@ -2,6 +2,7 @@ package com.aldisued.iot.monitoring.service;
 
 import com.aldisued.iot.monitoring.dto.AlertDto;
 import com.aldisued.iot.monitoring.entity.Alert;
+import com.aldisued.iot.monitoring.entity.Sensor;
 import com.aldisued.iot.monitoring.exception.EntityNotFoundException;
 import com.aldisued.iot.monitoring.repository.AlertRepository;
 import com.aldisued.iot.monitoring.repository.SensorRepository;
@@ -25,8 +26,11 @@ public class AlertService {
     }
 
     public Alert saveAlert(AlertDto alertDto) {
-        // TODO: Task 6
-        return null;
+        Sensor sensor = sensorRepository.findById(alertDto.sensorId())
+                .orElseThrow(() -> new EntityNotFoundException(1001, String.format("Sensor not found with id %s", alertDto.sensorId())));
+
+        kafkaTemplate.send("alerts", alertDto);
+        return alertRepository.save(new Alert(alertDto.message(), alertDto.timestamp(), sensor));
     }
 
     public AlertDto findLastAlertBySensorId(UUID sensorId) {
