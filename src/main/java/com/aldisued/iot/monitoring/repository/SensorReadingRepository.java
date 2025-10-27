@@ -15,6 +15,7 @@ public interface SensorReadingRepository extends JpaRepository<SensorReading, St
             where sr.sensor.type = :sensorType
             and sr.timestamp >= :from
             and sr.timestamp <= :to
+            order by sr.timestamp
             """
     )
     List<SensorReading> findAllByTimestampIsBetweenAndSensorType(LocalDateTime from, LocalDateTime to, SensorType sensorType);
