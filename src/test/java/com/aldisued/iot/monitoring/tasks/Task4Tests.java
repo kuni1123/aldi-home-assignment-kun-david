@@ -37,7 +37,7 @@ public class Task4Tests extends IntegrationTestBase {
     var sensorDto = new SensorDto(
         null,
         SensorType.TEMPERATURE
-    );;
+    );
     mockMvc.perform(MockMvcRequestBuilders.post(BASE_ENDPOINT)
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(sensorDto)))
@@ -49,7 +49,7 @@ public class Task4Tests extends IntegrationTestBase {
     var sensorDto = new SensorDto(
         "TestSensor",
         SensorType.TEMPERATURE
-    );;
+    );
 
     mockMvc.perform(MockMvcRequestBuilders.post(BASE_ENDPOINT)
             .contentType(MediaType.APPLICATION_JSON)
