@@ -1,6 +1,5 @@
 package com.aldisued.iot.monitoring.service;
 
-import com.aldisued.iot.monitoring.entity.SensorReading;
 import com.aldisued.iot.monitoring.entity.SensorType;
 import com.aldisued.iot.monitoring.repository.SensorReadingRepository;
 import org.springframework.stereotype.Service;
@@ -19,19 +18,20 @@ public class MeasurementService {
     }
 
     public List<Double> getMeasurementValuesBySensorType(SensorType sensorType, LocalDateTime from, LocalDateTime to) {
-        return sensorReadingRepository.findAllByTimestampIsBetweenAndSensorType(from, to, sensorType)
-                .stream()
-                .map(SensorReading::getValue)
-                .toList();
+        return sensorReadingRepository.findAllByTimestampIsBetweenAndSensorType(from, to, sensorType);
     }
 
     public Optional<Double> getAverageTemperature(LocalDateTime from, LocalDateTime to) {
-        List<SensorReading> sensorReadings = sensorReadingRepository.findAllByTimestampIsBetweenAndSensorType(from, to, SensorType.TEMPERATURE);
+        List<Double> sensorReadingValues = sensorReadingRepository.findAllByTimestampIsBetweenAndSensorType(from, to, SensorType.TEMPERATURE);
 
-        return sensorReadings.stream()
-                .map(SensorReading::getValue)
-                .reduce(Double::sum)
-                .map(sum -> sum / sensorReadings.size());
+        if (sensorReadingValues.isEmpty()) {
+            return Optional.empty();
+        }
+
+        return Optional.of(sensorReadingValues.stream()
+                .mapToDouble(Double::doubleValue)
+                .summaryStatistics()
+                .getAverage());
     }
 
 }
