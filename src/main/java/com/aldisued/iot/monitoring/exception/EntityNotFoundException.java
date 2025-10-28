@@ -3,7 +3,7 @@ package com.aldisued.iot.monitoring.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "Generic exception")
+@ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "Entity not found exception")
 public class EntityNotFoundException extends RuntimeException {
 
     private Integer errorCode;

@@ -100,6 +100,6 @@ public class Sensor {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, type);
+        return Objects.hash(id, name, type, alerts, sensorReadings);
     }
 }

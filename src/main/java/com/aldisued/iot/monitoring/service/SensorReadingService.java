@@ -21,13 +21,13 @@ public class SensorReadingService {
     }
 
     public SensorReading saveSensorReading(SensorReadingDto sensorReadingDto) {
-        Sensor sensor = this.sensorRepository.findById(sensorReadingDto.sensorId())
+        Sensor sensor = sensorRepository.findById(sensorReadingDto.sensorId())
                 .orElseThrow(() -> new EntityNotFoundException(
                         1001,
                         String.format("Sensor not found with id %s", sensorReadingDto.sensorId())
                 ));
 
-        return this.sensorReadingRepository.save(new SensorReading(sensorReadingDto.value(), sensorReadingDto.timestamp(), sensor));
+        return sensorReadingRepository.save(new SensorReading(sensorReadingDto.value(), sensorReadingDto.timestamp(), sensor));
     }
 
 }
