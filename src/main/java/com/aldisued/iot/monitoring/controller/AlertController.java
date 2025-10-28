@@ -22,7 +22,7 @@ public class AlertController {
 
     @GetMapping("/latest")
     public AlertDto findLatestAlerts(@Valid @RequestParam UUID sensorId) {
-        return this.alertService.findLastAlertBySensorId(sensorId);
+        return alertService.findLastAlertBySensorId(sensorId);
     }
 
 }
